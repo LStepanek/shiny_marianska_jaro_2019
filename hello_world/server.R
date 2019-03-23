@@ -9,9 +9,9 @@ library("shiny")
 
 server <- function(input, output){
     
-    output$my_text <- renderText({
+    output$my_output_text <- renderText({
         
-        input$my_text
+        input$my_input_text
         
     })
     

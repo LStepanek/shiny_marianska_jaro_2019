@@ -20,7 +20,7 @@ ui <- fluidPage(
         sidebarPanel(
             
             textInput(
-                inputId = "my_text",
+                inputId = "my_input_text",
                 label = "Sem vložte svůj text",
                 placeholder = "Ahoj světe!"
             )
@@ -31,7 +31,7 @@ ui <- fluidPage(
         
         mainPanel(
             
-            textOutput("my_text")
+            textOutput(outputId = "my_output_text")
             
         )
         
@@ -44,9 +44,9 @@ ui <- fluidPage(
 
 server <- function(input, output){
     
-    output$my_text <- renderText({
+    output$my_output_text <- renderText({
         
-        input$my_text
+        input$my_input_text
         
     })
     

@@ -20,7 +20,7 @@ fluidPage(
         sidebarPanel(
             
             textInput(
-                inputId = "my_text",
+                inputId = "my_input_text",
                 label = "Sem vložte svůj text",
                 placeholder = "Ahoj světe!"
             )
@@ -31,7 +31,7 @@ fluidPage(
         
         mainPanel(
             
-            textOutput("my_text")
+            textOutput(outputId = "my_output;_text")
             
         )
         
