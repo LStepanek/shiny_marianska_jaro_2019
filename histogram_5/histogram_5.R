@@ -62,7 +62,7 @@ ui <- fluidPage(
                 ),
                 selected = "mean",
             )
-            
+			
         ),
         
         ## výstupy; pravý panel -----------------------------------------------
