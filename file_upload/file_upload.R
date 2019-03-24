@@ -11,7 +11,7 @@ ui <- fluidPage(
     
     # "nadpis" aplikace -------------------------------------------------------
     
-    titlePanel("Kalendářový vstup"),
+    titlePanel("Nahrávání vlastních dat"),
     
     sidebarLayout(
         
@@ -19,13 +19,36 @@ ui <- fluidPage(
         
         sidebarPanel(
             
-            dateInput(
-                inputId = "first_date",
-                label = "Zvolte datum",
-                format = "dd. mm. yyyy",
-                startview = "month",
-                weekstart = 0,
-                language = "cs"
+            fileInput(
+                inputId = "my_file",
+                label = "Vyberte .csv/.txt soubor",
+                accept = c(
+                    "text/csv",
+                    "text/comma-separated-values,text/plain",
+                    ".csv"
+                ),
+                placeholder = "Nevybrán žádný soubor"
+            ),
+            
+            tags$hr(),
+            
+            radioButtons(
+                inputId = "separator_option",
+                label = "Oddělovač",
+                choices = c(
+                    "středník" = ";",
+                    "čárka" = ",",
+                    "tabulátor" = "\t"
+                ),
+                selected = ";"
+            ),
+            
+            tags$hr(),
+            
+            checkboxInput(
+                inputId = "my_header",
+                label = "Jsou přítomny popisky sloupců?",
+                value = TRUE
             )
             
         ),
@@ -34,10 +57,7 @@ ui <- fluidPage(
         
         mainPanel(
             
-            strong("Rozdíl mezi dneškem a zvoleným datem je [ve dnech]:"),
-            tags$br(),
-            tags$br(),
-            textOutput(outputId = "my_difference")
+            tableOutput(outputId = "my_content")
             
         )
         
@@ -50,10 +70,18 @@ ui <- fluidPage(
 
 server <- function(input, output){
     
-    output$my_difference <- renderText({
+    output$my_content <- renderTable({
+    
+        if(is.null(input$my_file)){
+            
+            return(NULL)
+            
+        }
         
-        as.numeric(
-            Sys.Date() - input$first_date
+        read.table(
+            input$my_file$datapath,
+            header = input$my_header,
+            sep = input$separator_option
         )
         
     })
